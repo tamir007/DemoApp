@@ -133,15 +133,6 @@ public class SuggestActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.i(debugTag, "onStop (SUGGEST)");
-//        PSTUtils.savePST(PhoneCallHandlerTrans.classifier,false);
-        SharedPreferences.Editor prefsEditor = MainActivity.mPrefs.edit();
-        String json = gson.toJson(MainActivity.commonData);
-        Log.i(debugTag, "Saving DB");
-        prefsEditor.putString("db", json);
-        json = gson.toJson(PhoneCallHandlerTrans.classifier);
-        Log.i(debugTag, "Saving classifier");
-        prefsEditor.putString("classifier",json);
-        prefsEditor.commit();
         super.onStop();
 
     }
@@ -149,14 +140,6 @@ public class SuggestActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.i(debugTag , "onDestroy (SUGGEST)");
-        SharedPreferences.Editor prefsEditor = MainActivity.mPrefs.edit();
-        String json = gson.toJson(MainActivity.commonData);
-        Log.i(debugTag, "Saving DB");
-        prefsEditor.putString("db", json);
-        json = gson.toJson(PhoneCallHandlerTrans.classifier);
-        Log.i(debugTag, "Saving classifier");
-        prefsEditor.putString("classifier",json);
-        prefsEditor.commit();
         super.onDestroy();
 
     }
@@ -164,15 +147,6 @@ public class SuggestActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         Log.i(debugTag, "onPause (SUGGEST)");
-//        PSTUtils.savePST(PhoneCallHandlerTrans.classifier,false);
-        SharedPreferences.Editor prefsEditor = MainActivity.mPrefs.edit();
-        String json = gson.toJson(MainActivity.commonData);
-        Log.i(debugTag, "Saving DB");
-        prefsEditor.putString("db", json);
-        json = gson.toJson(PhoneCallHandlerTrans.classifier);
-        Log.i(debugTag, "Saving classifier");
-        prefsEditor.putString("classifier",json);
-        prefsEditor.commit();
         super.onPause();
     }
 }

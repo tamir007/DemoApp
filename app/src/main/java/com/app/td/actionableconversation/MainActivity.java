@@ -8,12 +8,18 @@ import com.app.td.actionableconversation.DB.DB;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
@@ -37,54 +43,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         PhoneCallHandlerTrans.myContext = this;
         setContentView(R.layout.activity_main);
         pstUtils = new PSTUtils("classifier.ser");
-        mPrefs = getPreferences(MODE_PRIVATE);
         buildGoogleApiClient();
-//        PhoneCallHandlerTrans.classifier = pstUtils.loadPST();
-//        loadDB();
-
-        gson = new Gson();
-        String json = mPrefs.getString("db", "");
-        try{
-            commonData = gson.fromJson(json, DB.class);
-            Log.i(debugTag, "db loaded");
-        }catch(Exception e){
-
-            Log.i(debugTag, "db initialized");
-        }
-
+        PhoneCallHandlerTrans.classifier = pstUtils.loadPST();
         loadDB();
-
-        json = mPrefs.getString("classifier", "");
-        try{
-            PhoneCallHandlerTrans.classifier = gson.fromJson(json, PSTMultiClassClassifier.class);
-            Log.i(debugTag, "classifier loaded");
-        }catch (Exception e){
-            PhoneCallHandlerTrans.classifier = null;
-        }
         HashMap<Character,String> mostCalled = commonData.getCToS();
         Log.i(debugTag, "Most 5 called contacts are : " + mostCalled.get('1') + " " + mostCalled.get('2') +
         " " + mostCalled.get('3') + " " + mostCalled.get('4') + " " + mostCalled.get('5'));
 
+        // Make reset button
+
+        Button myButton = (Button) findViewById(R.id.reset);
+        myButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PhoneCallHandlerTrans.classifier = pstUtils.loadPST();
+                Log.i("debug" , "classifier reset");
+            }
+        });
+
+
         Toast.makeText(this, "Activated Completed", Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        String json = gson.toJson(commonData);
-        Log.i(debugTag, "Saving DB");
-        prefsEditor.putString("db", json);
-        json = gson.toJson(PhoneCallHandlerTrans.classifier);
-        Log.i(debugTag, "Saving classifier");
-        prefsEditor.putString("classifier",json);
-        prefsEditor.commit();
-
-    }
-
 
     public void saveDB(boolean isDestroy){
         SerializationUtil.serialize(commonData , dbPath , isDestroy);
@@ -100,14 +80,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void loadDB(){
-//        commonData = (DB)SerializationUtil.deserialize(dbPath);
-        if(commonData == null) {
-            Log.i(debugTag," creating DB from scratch");
-            commonData = new DB();
-            String[] fiveMostCalled = CallLogInfo.getMostCalled(5, this);
-            commonData.addUsers(fiveMostCalled);
-            //saveDB(false);
-        }
+            Log.i(debugTag, " creating DB from scratch");
+        commonData =  (DB)SerializationUtil.deserialize(this.getResources().openRawResource(R.raw.db));
     }
 
     @Override
@@ -170,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onPause() {
-        super.onPause();
         Log.i(debugTag, "onPause ");
+        super.onPause();
     }
 }

@@ -1,7 +1,8 @@
 <resources>
-    <string name="mainTitle">Actionable Conversations</string>
+    <string name="mainTitle">Demo App</string>
     <string name="suggestTitle">You Might Want To ..</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="map">Map</string>
+    <string name="headline">Actionable Conversations</string>
 </resources>

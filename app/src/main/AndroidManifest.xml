@@ -29,7 +29,7 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyC2Af9QzBdfmkM-fbbO6-7trObvbZp3D9E"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/mainTitle" >
+            android:label="@string/headline" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

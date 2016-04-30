@@ -49,6 +49,7 @@ public class SerializationUtil {
             // TODO Auto-generated catch block
             System.out.println("ERROR1");
             e.printStackTrace();
+            Log.i("debug","error is : " + e);
         }
 
         return null;

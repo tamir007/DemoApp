@@ -1,13 +1,10 @@
 package com.app.td.actionableconversation.Algorithm;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PSTMultiClassClassifier implements Serializable , Parcelable
+public class PSTMultiClassClassifier implements Serializable
 {	
 	private static final long serialVersionUID = 1L;
 	
@@ -48,25 +45,6 @@ public class PSTMultiClassClassifier implements Serializable , Parcelable
 		}
 	}
 
-
-	protected PSTMultiClassClassifier(Parcel in) {
-		_lableSet = in.createCharArray();
-		_context = in.readString();
-		_ht = in.readDouble();
-		_t = in.readInt();
-	}
-
-	public static final Creator<PSTMultiClassClassifier> CREATOR = new Creator<PSTMultiClassClassifier>() {
-		@Override
-		public PSTMultiClassClassifier createFromParcel(Parcel in) {
-			return new PSTMultiClassClassifier(in);
-		}
-
-		@Override
-		public PSTMultiClassClassifier[] newArray(int size) {
-			return new PSTMultiClassClassifier[size];
-		}
-	};
 
 	/*
          * Predicts the next label according to the labels history and to the specified feature vector
@@ -166,16 +144,4 @@ public class PSTMultiClassClassifier implements Serializable , Parcelable
 		return _t;
 	}
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int i) {
-		parcel.writeCharArray(_lableSet);
-		parcel.writeString(_context);
-		parcel.writeDouble(_ht);
-		parcel.writeInt(_t);
-	}
 }

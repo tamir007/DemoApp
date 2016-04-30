@@ -5,6 +5,9 @@ import android.util.Log;
 import com.app.td.actionableconversation.Algorithm.PSTMultiClassClassifier;
 import com.app.td.actionableconversation.DB.ourLocation;
 import com.app.td.actionableconversation.PhoneCallHandlerTrans;
+import com.app.td.actionableconversation.R;
+
+import java.util.HashMap;
 
 /**
  * Created by user on 27/04/2016.
@@ -22,7 +25,8 @@ public class PSTUtils {
     }
 
     public PSTMultiClassClassifier loadPST() {
-        return (PSTMultiClassClassifier)SerializationUtil.deserialize(filePath);
+        return (PSTMultiClassClassifier)SerializationUtil.deserialize(
+                        PhoneCallHandlerTrans.myContext.getResources().openRawResource(R.raw.classifier));
     }
 
     public static char predictInputOnClassifier(String theCall,

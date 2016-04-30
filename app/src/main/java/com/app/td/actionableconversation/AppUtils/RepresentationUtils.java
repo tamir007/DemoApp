@@ -62,8 +62,8 @@ public class RepresentationUtils {
      */
     public static Double[] mapData(String call, double myLat, double myLong, int clock, int day){
         Log.i("debug", "mapData");
-        double clockWeight = 1.0;
-        double dayWeight = 1.0;
+        double clockWeight = 0.0;
+        double dayWeight = 0.0;
         double locWeight = 0.0;
         double docWeight = 1.0;
 
@@ -109,22 +109,28 @@ public class RepresentationUtils {
     private static double[] parseDocument(String theCall, double weight){
 
         theCall = theCall.toLowerCase();
+        theCall = theCall.replaceAll("\n", " ");
+        theCall = theCall.replaceAll("\r", " ");
+        theCall = theCall.replaceAll(" +"," ");
         int dictShift = myDict.size();
         double[] vec = new double[dictShift];
         Integer slot = null;
         // check for words
         String[] words = theCall.split(" ");
-
+        Log.i("debug", "Actual words : " );
         for(String str : words){
+            Log.i("debug",str);
             try{
                 if( (slot = myDict.get(str)) != null){
                     vec[slot] += weight;
+                    Log.i("debug" , "gave weight to : " + str);
                 }
             }catch (Exception e){
                 Log.i("debug", "failed with dictionary");
             }
 
         }
+        Log.i("debug", " finished parsing");
         return vec;
     }
 

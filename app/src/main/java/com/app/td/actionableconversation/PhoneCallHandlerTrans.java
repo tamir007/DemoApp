@@ -45,7 +45,7 @@ public class PhoneCallHandlerTrans extends PhonecallReceiver{
         if(myContext == null){
             return;
         }
-        feedbackAndSave(number);
+        //feedbackAndSave(number);
         recordMic();
     }
 
@@ -54,16 +54,16 @@ public class PhoneCallHandlerTrans extends PhonecallReceiver{
         if(myContext == null){
             return;
         }
-       feedbackAndSave(number);
+        feedbackAndSave(number);
         recordMic();
     }
-
 
     @Override
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
         if(myContext == null){
             return;
         }
+
         stopRecordMic();
     }
 
@@ -80,6 +80,18 @@ public class PhoneCallHandlerTrans extends PhonecallReceiver{
         // do not need
     }
 
+    private void recordMic() {
+        Log.i(debugTag, "record mic");
+        mGoogleApiClient.connect();
+        speech = new PredictionCycle();
+        speech.initialize();
+        speech.run();
+
+    }
+
+    private void stopRecordMic() {
+        if (speech != null) speech.stop();
+    }
 
     private void feedbackAndSave(String number){
         Log.i(debugTag, " feedbackAndSave");
@@ -96,19 +108,6 @@ public class PhoneCallHandlerTrans extends PhonecallReceiver{
         }else{
             Log.i(debugTag, " classifier is null");
         }
-    }
-
-    private void recordMic() {
-        Log.i(debugTag, "record mic");
-        mGoogleApiClient.connect();
-        speech = new PredictionCycle();
-        speech.initialize();
-        speech.run();
-
-    }
-
-    private void stopRecordMic() {
-        if (speech != null) speech.stop();
     }
 
     public class PredictionCycle {
